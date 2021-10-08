@@ -54,6 +54,17 @@ class UserService {
         };
     }
 
+    async logOut(token) {
+        const { userId } = jwt.verify(token, 'secret');
+        const user = await UserSchema.findOne({ _id: userId });
+
+        if(!user) {
+            return res.status(404).json('user not found');
+        }
+
+        await promisify(client.del).bind(client)(user.id);
+    }
+
     checkLogin(token) {
         // // console.log(token)
         // const { userId, iat } = jwt.verify(token, 'secret');

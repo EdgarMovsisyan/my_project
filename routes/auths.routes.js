@@ -46,7 +46,7 @@ router.post('/reg',
     }
 );
 
-router.post('/login', [
+router.post('/logIn', [
     check('email', 'enter correct email').normalizeEmail().isEmail(),
     check('password', 'enter password').exists()
 ], 
@@ -72,6 +72,21 @@ async (req, res) => {
         return res.status(201).json(userLogin);
 
         
+    } catch(e) {
+        return res.status(500).json({ message: e.message });
+    }
+});
+
+router.post('/logOut', async (req, res) => {
+    try {
+        const { token } = req.body;
+
+        if(!token) {
+            return res.status(400).json({ message: 'Invalid logOut data or token' });
+        }
+
+        return res.status(200).json({ message: 'logOut' });
+
     } catch(e) {
         return res.status(500).json({ message: e.message });
     }
