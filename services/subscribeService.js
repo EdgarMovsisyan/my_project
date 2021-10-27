@@ -4,8 +4,8 @@ const User = require('../services/userService');
 class SubscribeService {
     constructor() {}
 
-    async create() {
-
+    async create(source, target) {
+        
     }
 }
 

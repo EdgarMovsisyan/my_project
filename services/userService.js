@@ -66,18 +66,16 @@ class UserService {
     }
 
     checkLogin(token) {
-        // // console.log(token)
-        // const { userId, iat } = jwt.verify(token, 'secret');
-        // // console.log(userId)
-        // const user = UserSchema.findOne({ _id: userId });
-        // const id = user._id;
-        // const isLogined = promisify(this.#client.get).bind(this.#client)(user._id.toString());
+        const userId = jwt.verify(token, 'secret');
+        const user = await UserSchema.findOne({ _id: userId });
+        const id = user._id;
+        const isLogined = await promisify(this.#client.get).bind(this.#client)(user._id.toString());
 
-        // if(!user || !isLogined) {
-        //     throw new Error('This user notfound');
-        // }
+        if(!user || !isLogined) {
+            return res.status(404).json('user not found');
+        }
 
-        // return id, isLogined;
+        return id;
     }
 
     async findUserByEmail(email) {
